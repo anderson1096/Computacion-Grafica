@@ -1,2 +1,2 @@
 # Computacion-Grafica
-Computación gráfica, trabajos y proyectos.
+Viendo las imagenes y graficos desde el punto de vista computacional.
