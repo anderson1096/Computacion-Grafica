@@ -16,6 +16,18 @@ def distancia(point1,point2):
     b = point2[1]-point1[1]
     dis = math.sqrt(a**2 + b**2)
     return dis
+#Funcion para retornar el producto punto
+def punto(vec1,vec2):
+    res = vec1[0] * vec2[0] + vec1[1] * vec2[1]
+    return res
+
+#Funcion para sacar el angulo entre vectores
+def angulo(vector1,vector2):
+    a = math.fabs(punto(vector1,vector2))
+    b = norma(vector1) * norma(vector2)
+    print b
+    t = math.acos(a/b)
+    return math.degrees(t)
 
 #Solicitando los datos de los puntos
 str1 = raw_input("Ingrese el primer punto: ").split(" ")
@@ -26,7 +38,7 @@ str2 = raw_input("Ingrese el primer punto: ").split(" ")
 Bx = int(str2[0])
 By = int(str2[1])
 B = (Bx,By)
-
+"""
 #Iniciando pygame, para dibujar el resultado en pantalla
 pygame.init()
 screen = pygame.display.set_mode((500,500))
@@ -45,3 +57,5 @@ while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
+"""
+print angulo(A,B)
