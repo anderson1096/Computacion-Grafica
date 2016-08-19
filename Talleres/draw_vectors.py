@@ -10,8 +10,7 @@ AZUL = [0,102,255]
 ROSA = [255,51,255]
 #definicion de las coordenadas del centro de mi plano cartesiano
 CENTRO = (250,250)
-
-#funcion que dibuja el plano cartesiano
+#funccd ..ion que dibuja el plano cartesiano
 def Dibujarejes(screen, c, al, an):
     pygame.draw.line(screen, ROJO, (0,c[1]),(an,c[1]),1)
     pygame.draw.line(screen, ROJO, (c[0],0),(c[0],al),1)
@@ -42,9 +41,9 @@ cartesiano(screen,CENTRO,vector1,NEGRO)
 pygame.display.flip()
 cartesiano(screen,CENTRO, suma(vector1,vector2),AZUL)
 pygame.display.flip()
-print "AZUL: Vector resultante de la Suma"
-print "NEGRO: Vector 1"
-print "ROSA: Vector 2"
+print "AZUL: Vector resultante de la Suma: ", suma(vector1,vector2)
+print "NEGRO: Vector 1", vector1
+print "ROSA: Vector 2", vector2
 
 while 1:
     tecla = pygame.key.get_pressed()
