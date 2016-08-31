@@ -63,9 +63,12 @@ def imprimir(matriz):
     for fila in matriz:
         print fila
 
-m1 = [[1,0,3],[21,5,6],[7,34,9]]
+m1 = [[1,0,3],[1,5,6],[7,4,9]]
 m2 = [[1,2,3],[0,5,6],[7,0,9]]
 
+"""for i in range(3):
+    print m1[i],"+",m2[i],"=",suma_filas(m1)[i]
+"""
 print "Matriz 1: "
 imprimir(m1)
 print "Matriz 2: "
