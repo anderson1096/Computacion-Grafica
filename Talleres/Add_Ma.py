@@ -25,13 +25,21 @@ def suma_matrices(matriz1, matriz2):
             res[i][j] = matriz1[i][j] + matriz2[i][j]
     return res
 
+#Funcion para construir una lista de tamano n (vector)
+def vector(n):
+    vec = []
+    for i in range(n):
+        vec.append(0)
+    return vec
+
+#Funcion que suma las filas de una matriz
 def suma_filas(matriz1):
-    res = [0]*len(matriz1)
-    cont = 0
+    res = vector(len(matriz1[0]))
     aux = len(matriz1)
     for i in matriz1:
-        res[cont] += i[cont]
-        cont+=1
+        for j in range(len(res)):
+            res[j] += i[j]
+
     return res
 
 #Funcion que calcula la transpuesta de una matriz
@@ -50,12 +58,13 @@ def opuesta(matriz):
             matriz[i][j] = matriz[i][j] * (-1)
     return matriz
 
+#Funcion para imprimir una matriz
 def imprimir(matriz):
     for fila in matriz:
         print fila
 
-m1 = [[1,2,3],[4,5,6],[7,8,9]]
-m2 = [[1,2,3],[4,5,6],[7,8,9]]
+m1 = [[1,0,3],[21,5,6],[7,34,9]]
+m2 = [[1,2,3],[0,5,6],[7,0,9]]
 
 print "Matriz 1: "
 imprimir(m1)
