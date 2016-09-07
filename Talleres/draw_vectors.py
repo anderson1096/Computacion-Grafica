@@ -24,7 +24,7 @@ def suma(vec1,vec2):
     x = vec1[0] + vec2[0]
     y = vec1[1] + vec2[1]
     return x,y
-
+"""
 #iniciando pygame
 pygame.init()
 screen = pygame.display.set_mode((ANCHO,ALTO))
@@ -50,3 +50,4 @@ while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
+"""

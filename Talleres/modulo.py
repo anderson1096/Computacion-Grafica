@@ -1,5 +1,5 @@
 import math
-import draw_vectors
+#import draw_vectors
 import pygame
 
 #Funcion que determina un vector dados dos puntos
@@ -28,7 +28,7 @@ def angulo(vector1,vector2):
     print b
     t = math.acos(a/b)
     return math.degrees(t)
-
+"""
 #Solicitando los datos de los puntos
 str1 = raw_input("Ingrese el primer punto: ").split(" ")
 Ax = int(str1[0])
@@ -38,7 +38,7 @@ str2 = raw_input("Ingrese el primer punto: ").split(" ")
 Bx = int(str2[0])
 By = int(str2[1])
 B = (Bx,By)
-"""
+
 #Iniciando pygame, para dibujar el resultado en pantalla
 pygame.init()
 screen = pygame.display.set_mode((500,500))
@@ -57,5 +57,6 @@ while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
-"""
+
 print angulo(A,B)
+"""
