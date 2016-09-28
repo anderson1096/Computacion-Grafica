@@ -14,6 +14,7 @@ def Vector(lon):
         d[i] = int(raw_input("Numero: "))
 
     return d
+
 def Multiplicar(matriz, vector, lon):
     res = [0]*lon
     aux = 0;

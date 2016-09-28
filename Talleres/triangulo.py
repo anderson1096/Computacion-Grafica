@@ -12,6 +12,7 @@ ROJO = (255,0,0)
 AZUL = (0,102,255)
 CENTRO = (300,300)
 
+#Funcion que determina los tres angulos de un triangulo
 def angulos_triangulo(pos1,pos2,pos3):
     vec1 = modulo.vector(pos1,pos2)
     vec2 = modulo.vector(pos2,pos3)
@@ -21,7 +22,7 @@ def angulos_triangulo(pos1,pos2,pos3):
     angulo3 = modulo.angulo(vec3,vec1)
     print angulo1,angulo2,angulo3
 
-    
+
     pygame.init()
     screen = pygame.display.set_mode((ANCHO,ALTO))
     screen.fill(BLANCO)

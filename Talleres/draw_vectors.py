@@ -10,7 +10,7 @@ AZUL = [0,102,255]
 ROSA = [255,51,255]
 #definicion de las coordenadas del centro de mi plano cartesiano
 CENTRO = (250,250)
-#funccd ..ion que dibuja el plano cartesiano
+#funcion que dibuja el plano cartesiano
 def Dibujarejes(screen, c, al, an):
     pygame.draw.line(screen, ROJO, (0,c[1]),(an,c[1]),1)
     pygame.draw.line(screen, ROJO, (c[0],0),(c[0],al),1)

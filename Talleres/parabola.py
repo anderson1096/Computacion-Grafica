@@ -42,8 +42,8 @@ if __name__== "__main__":
             if event.type == pygame.QUIT:
                 exit()
 
-            pygame.draw.circle(screen, NEGRO, transladar(CENTRO,parabola(cont)), 1, 1)
+            pygame.draw.circle(screen, NEGRO, transladar(CENTRO,parabola(cont)), 2, 1)
             pygame.draw.line(screen, NEGRO,transladar(CENTRO,parabola(cont-1)),transladar(CENTRO,parabola(cont)),1)
             pygame.display.flip()
-            reloj.tick(120)
+            reloj.tick(1300)
             cont+=1

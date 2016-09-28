@@ -16,7 +16,7 @@ def distancia(point1,point2):
     b = point2[1]-point1[1]
     dis = math.sqrt(a**2 + b**2)
     return dis
-#Funcion para retornar el producto punto
+#Funcion para retornar el producto punto entre dos vectores
 def punto(vec1,vec2):
     res = vec1[0] * vec2[0] + vec1[1] * vec2[1]
     return res
@@ -28,6 +28,7 @@ def angulo(vector1,vector2):
     print b
     t = math.acos(a/b)
     return math.degrees(t)
+
 """
 #Solicitando los datos de los puntos
 str1 = raw_input("Ingrese el primer punto: ").split(" ")
