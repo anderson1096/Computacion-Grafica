@@ -280,6 +280,9 @@ def cartesianas_polares(x,y):
     return int(r), int(angulo)
 
 
+def draw(screen, NEGRO, CENTRO):
+    pygame.draw.ellipse(screen, NEGRO,[CENTRO[0]-130,CENTRO[1] - 25, 130,60],1)
+    pygame.draw.ellipse(screen, NEGRO, [CENTRO[0],CENTRO[1] - 25, 130,60],1)
 #Funcion para dibujar un poligono de n lados iguales
 def poligono_le(lados,anguloIni,radio):
     aux = 360 / lados
@@ -302,7 +305,9 @@ if __name__ == "__main__":
     listaT = trans_points(lista, CENTRO)
     print cartesianas_polares(0,100)
     pygame.draw.polygon(screen, VERDE, listaT)
+
     pygame.display.flip()
+
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

@@ -56,7 +56,7 @@ def patron_poligono(poligono):
         draw(poligono, VERDE)
 
     #Dibujando la parte derecha
-    poligono1 = rotarV_fijo(poligono, (poligono[0][0] + 5,poligono[0][1] + 10), 270)
+    poligono1 = rotarV_fijo(poligono, (poligono[0][0],poligono[0][1] - 30), 270)
 
     while poligono1[0][1] < ALTO - 50:
         l = []
@@ -68,23 +68,23 @@ def patron_poligono(poligono):
     draw(poligono1, BLANCO)
 
     #Dibujando parte inferior
-    poligono2 = rotarV_fijo(poligono1, (poligono1[0][0] + 9,poligono1[0][1] + 20), 90)
-    draw(poligono2, AZUL)
+    poligono2 = rotarV_fijo(poligono1, (poligono1[0][0] + 9,poligono1[0][1] - 40), 90)
+    draw(poligono2, ROJO)
     while poligono2[0][0] > 0:
         l = []
         for point in poligono2:
             aux = [point[0] - 50, point[1]]
             l.append(aux)
         poligono2 = l
-        draw(poligono2, AZUL)
+        draw(poligono2, ROJO)
 
     draw(poligono2, BLANCO)
 
 
     #Dibujando parte IZQUIERDA
-    poligono3 = rotarV_fijo(poligono2, (poligono2[0][0] + 15,poligono2[0][1] - 45), 270)
+    poligono3 = rotarV_fijo(poligono2, (poligono2[0][0],poligono2[0][1] - 65), 270)
     draw(poligono3, NEGRO)
-    while poligono3[0][1] > 150:
+    while poligono3[0][1] > 100:
         l = []
         for point in poligono3:
             aux = [point[0], point[1] - 60]
@@ -104,28 +104,28 @@ def up_right(points):
     return mayor
 
 
-
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((ANCHO,ALTO))
     screen.fill(BLANCO)
-    
+
     #Esto es para la prueba de patrones, son 3 poligonos y el llamado a la funcion (escogen el poligono que quieran enviar a la funcion)
 
     pot = [[10,10], [40,10], [40,20], [20,20], [20,40], [40,40], [40,50], [10,50]]
     pot2 = [[10,10], [50,10], [10,30]]
     pot3 = [[10,10], [40,10], [40,30],[60,30],[60,40],[30,40],[30,20],[10,20]]
-
-    patron_poligono(pot3)
+    pot4 = [[10,30], [40,40], [40,10], [30,10], [30,30]]
+    #pygame.draw.polygon(screen,VERDE,pot4)
+    patron_poligono(pot4)
 
     #libreria.Dibujarejes(screen,CENTRO,ALTO,ANCHO)
-    #Interseccion, union y resto (conjuntos) dos circunferencias
-    '''pygame.draw.circle(screen,VERDE,CENTRO, 50)
-    pygame.draw.circle(screen,AZUL,(CENTRO[0] + 80,CENTRO[1]), 50)
+    '''#Interseccion, union y resto (conjuntos) dos circunferencias
+    pygame.draw.circle(screen,VERDE,CENTRO, 50,1)
+    pygame.draw.circle(screen,AZUL,(CENTRO[0] + 80,CENTRO[1]), 50,1)
     P1 = libreria.transladar(CENTRO,[40,30])
     P2 = libreria.transladar(CENTRO,[40,-30])
     #pygame.draw.line(screen,AZUL,P1,P2)
-    pygame.draw.ellipse(screen, BLANCO,[CENTRO[0]+30,CENTRO[1]-30, 20,60])
+    pygame.draw.ellipse(screen, NEGRO,[CENTRO[0]+30,CENTRO[1]-30, 20,60])
     '''
     while 1:
         for event in pygame.event.get():

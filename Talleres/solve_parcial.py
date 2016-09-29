@@ -15,13 +15,16 @@ CENTRO = (300,300)
 
 def angulo_ciclo():
     l = []
-    for i in range(360):
+    for i in range(-45,45):
         l.append(i)
     return l
 
-def polar_function(angulo,a):
-    r = 2*math.sin(3*angulo)
-    return a*r,angulo
+def polar_function(angulo, bandera):
+    if bandera:
+        r = 100*math.cos(3*angulo)
+        return r,angulo
+    else:
+        return 0,0
 
 def list_polares(polares):
     cartesianas = []
@@ -49,18 +52,20 @@ if __name__ == "__main__":
     grados = angulo_ciclo()
     polares = []
     for i in grados:
-        aux = polar_function(i,100)
+        aux = polar_function(i, True)
         polares.append(aux)
     cartesianas = list_polares(polares)
     cartesianasT = libreria.trans_points(cartesianas,CENTRO)
     n = len(cartesianasT)
     for i in cartesianasT:
-        #libreria.cartesiano(screen, CENTRO, i, VERDE)
+        libreria.cartesiano(screen, CENTRO, i, VERDE)
         #pygame.draw.line(screen,VERDE, cartesianasT[i-1],cartesianasT[i])
-        pygame.draw.circle(screen,VERDE,i,2)
+        #pygame.draw.circle(screen,VERDE,i,2)
         #screen.set_at(i,NEGRO)
+    #libreria.draw(screen, NEGRO, CENTRO)
     #pygame.draw.polygon(screen, VERDE, cartesianasET, 1)"""
     #pygame.draw.polygon(screen, VERDE, cartesianasT)
+
     pygame.display.flip()
     while 1:
         for event in pygame.event.get():
