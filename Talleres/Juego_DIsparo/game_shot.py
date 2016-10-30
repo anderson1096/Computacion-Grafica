@@ -22,6 +22,15 @@ class Jugador(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
 
+class Muro(pygame.sprite.Sprite):
+    def __init__(self, archivo):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(archivo).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.x = 0
+        self.rect.y = 0
+
+
 class Enemigo(pygame.sprite.Sprite):
     def __init__(self, archivo):
         pygame.sprite.Sprite.__init__(self)
@@ -117,6 +126,7 @@ if __name__ == '__main__':
                 balas.remove(b)
                 todos.remove(b)
 
+
         #Disparo de enemigos
         for e in enemigos:
             e.tempo()
@@ -129,10 +139,7 @@ if __name__ == '__main__':
                 todos.add(b)
 
 
-            '''if e.rect.x < 0:
-                enemigos.remove(e)
-                todos.remove(e)
-'''
+
         todos.update()
         pantalla.fill(BLANCO)
         todos.draw(pantalla)
