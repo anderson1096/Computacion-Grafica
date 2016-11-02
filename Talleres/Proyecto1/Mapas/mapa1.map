@@ -1,0 +1,27 @@
+[nivel1]
+origen = terrenogen.png
+alto = 32
+ancho = 32
+
+mapa = ..T.$$$$....
+       ..T......$$$
+       ..T....$$$$$
+       ..T....$....
+       ............$$$$
+
+[.]
+nombre = pasto
+x = 16
+y = 0
+
+
+[$]
+nombre = pared
+x = 22
+y = 3
+
+
+[T]
+nombre = poste
+x = 20
+y = 0
