@@ -3,15 +3,22 @@ origen = terrenogen.png
 alto = 32
 ancho = 32
 
-mapa = ..T.$$$$....
-       ..T......$$$
-       ..T....$$$$$
-       ..T....$....
-       ............$$$$
+mapa = p..p$$$$..
+       p..p...p.$
+       .......p.$
+       ...p...p..
+       ..........
+       ...p......
+       ...p.....p
 
 [.]
 nombre = pasto
 x = 16
+y = 0
+
+[p]
+nombre = pto
+x = 0
 y = 0
 
 
