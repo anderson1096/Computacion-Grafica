@@ -29,7 +29,7 @@ def Game(iconos, cuadros):
         if event.type == pygame.MOUSEBUTTONDOWN:
             for ic in iconos:
                 if ic.rect.collidepoint(event.pos) and ic.id == 1:
-                    cuadro1 = Cuadro('Sprites/caja.png',(100,100),ic.id + 3)
+                    cuadro1 = Cuadro('Sprites/caja.png',pygame.mouse.get_pos(),ic.id + 3)
                     cuadros.add(cuadro1)
                     todos.add(cuadro1)
                 if ic.rect.collidepoint(event.pos) and ic.id == 2:
@@ -61,7 +61,7 @@ def main(screen, iconos, cuadros):
     #Captura de teclas
     Game(iconos, cuadros)
     screen.fill(NEGRO)
-    paint_zone()
+    #paint_zone()
 
 
 
@@ -75,10 +75,10 @@ if __name__ == "__main__":
     todos = pygame.sprite.Group()
     iconos = pygame.sprite.Group()
     cuadros = pygame.sprite.Group()
-    icono1 = Cuadro('Sprites/icono.png',(20,420),1)
+    icono1 = Cuadro('/home/anderson/Descargas/TD_archivos/towers/turret-1-1.png',(20,420),1)
     iconos.add(icono1)
     todos.add(icono1)
-    icono2 = Cuadro('Sprites/icono.png',(70,420),2)
+    icono2 = Cuadro('/home/anderson/Descargas/TD_archivos/towers/turret-2-1.png',(70,420),2)
     iconos.add(icono2)
     todos.add(icono2)
     reloj = pygame.time.Clock()

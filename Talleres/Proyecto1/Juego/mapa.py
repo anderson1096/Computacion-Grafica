@@ -20,7 +20,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect.y = pos[1]
         self.rect.x = pos[0]
 
-    def update(self):
+    def update(self, surface):
         pass
 
 class Life(pygame.sprite.Sprite):
@@ -33,7 +33,7 @@ class Life(pygame.sprite.Sprite):
         self.modos = mode
         self.vida = 100
 
-    def update(self):
+    def update(self, surface):
         if self.vida > 80:
             self.image = self.modos[0]
         elif self.vida > 40 and self.vida <= 80:
@@ -69,7 +69,7 @@ def toMap(mapa, lector, ian_or, ial_or, tiles, baldosas, todos):
                 todos.add(baldosa)
         yact += ial_or
 
-def paint_mapa(todos, baldosas):
+def paint_mapa(screen, todos, baldosas):
     fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/fondo.jpg').convert_alpha()
     screen.blit(fondo, (0,0))
     tiles = load_tiles()
@@ -80,12 +80,17 @@ def paint_mapa(todos, baldosas):
     mapa = lector.get("nivel1", "mapa").split("\n")
     toMap(mapa, lector, ian_or, ial_or, tiles, baldosas, todos)
 
+def load_fondo(screen):
+    fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/fondo.jpg').convert_alpha()
+    screen.blit(fondo, (0,0))
 
-def paint_tools(todos, vidas):
+def paint_tools(screen, todos, vidas):
     mode = load_lifes()
     life =  Life(mode[0], (690, 400), mode)
     todos.add(life)
     vidas.add(life)
+    #tower1 = pygame.image.load('/home/anderson/Descargas/TD_archivos/towers/turret-1-1.png').convert_alpha()
+    #tower2 = pygame.image.load('/home/anderson/Descargas/TD_archivos/towers/turret-2-1.png').convert_alpha()
     aux0 =  pygame.image.load('/home/anderson/Descargas/TD_archivos/tileset/01.png').convert_alpha()
     aux1 =  pygame.image.load('/home/anderson/Descargas/TD_archivos/tileset/03.png').convert_alpha()
     aux2 =  pygame.image.load('/home/anderson/Descargas/TD_archivos/tileset/14.png').convert_alpha()
@@ -100,7 +105,9 @@ def paint_tools(todos, vidas):
     screen.blit(az, (690, 400 - 160))
     screen.blit(ama, (690, 400 - 80))
     screen.blit(cuadro, (48, ALTO - 75))
+    #screen.blit(tower1, (63, ALTO - 45))
     screen.blit(cuadro, (133, ALTO - 75))
+    #screen.blit(tower2, (148, ALTO - 45))
 
 
 if __name__ == '__main__':
@@ -116,21 +123,3 @@ if __name__ == '__main__':
     # Funcion que dibuja la vida y las otras imagenes laterales
     paint_tools(todos, vidas)
     pygame.display.flip()
-
-    while 1:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    for v in vidas:
-                        v.vida -= 20
-                if event.key == pygame.K_UP:
-                    for v in vidas:
-                        v.vida += 20
-
-
-        todos.update()
-        todos.draw(screen)
-        pygame.display.flip()
