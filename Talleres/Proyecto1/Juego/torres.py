@@ -1,6 +1,8 @@
 import os, sys
 import pygame
 import mapa
+import enemigo
+import oleada
 
 
 ANCHO = 800
@@ -12,6 +14,7 @@ BLANCO = (255,255,255)
 
 class Torre(pygame.sprite.Sprite):
     def __init__(self, archivo, pos, idc):
+
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(archivo).convert_alpha()
         self.rect = self.image.get_rect()
@@ -19,16 +22,40 @@ class Torre(pygame.sprite.Sprite):
         self.rect.y = pos[1]
         self.rect.x = pos[0]
         self.id = idc
+        self.radar = auxTorres(pos[0],pos[1],100,48,48)
+        self.le = []
 
-    def update(self, surface):
+    def update(self, surface, enemigos):
         if self.click:
             self.rect.center = pygame.mouse.get_pos()
         surface.blit(self.image, self.rect)
 
+        self.radar.rect.center = self.rect.center
+
+        colision = pygame.sprite.spritecollide(self.radar, self.le, False)
+        for en_d in colision:
+            print "el primero: {0}".format(en_d.vida)
 
 
 
-def Game(iconos, torres, baldosas):
+class auxTorres(pygame.sprite.Sprite):
+    def __init__(self, px, py, radio, xd, yd):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([radio,radio])
+        self.rect = self.image.get_rect()
+        self.image.fill(NEGRO)
+        self.rect.x = px
+        self.rect.y = py
+        self.cx = radio / 2;
+        self.cy = radio / 2;
+        nx = self.cx - (xd/2)
+        ny = self.cy - (yd/2)
+        self.rect.x = px - nx
+        self.rect.y = py - ny
+
+
+
+def Game(iconos, torres, baldosas, enemigos):
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             for ic in iconos:
@@ -57,10 +84,13 @@ def Game(iconos, torres, baldosas):
             pygame.quit();
             sys.exit()
 
+def list_ene(torre, enemigos):
+    le = []
+    for ene in enemigos:
+        torre.le.append(ene)
 
 
-
-def main(screen, todos, vidas, baldosas):
+def main(screen, todos, vidas, baldosas, enemigos):
     #Captura de teclas
 
     icono1 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-1-1.png',(63, ALTO - 45),1)
@@ -69,10 +99,11 @@ def main(screen, todos, vidas, baldosas):
     icono2 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-2-1.png',(148, ALTO - 45),2)
     iconos.add(icono2)
     todos.add(icono2)
-    Game(iconos, torres, baldosas)
+    Game(iconos, torres, baldosas, enemigos)
     screen.fill(NEGRO)
     mapa.load_fondo(screen)
     mapa.paint_tools(screen, todos, vidas)
+
 
 
 
@@ -86,16 +117,31 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((ANCHO, ALTO))
     todos = pygame.sprite.Group()
     iconos = pygame.sprite.Group()
+    enemigos = pygame.sprite.Group()
     torres = pygame.sprite.Group()
     baldosas = pygame.sprite.Group()
     vidas = pygame.sprite.Group()
     mapa.paint_mapa(screen, todos, baldosas)
-    mapa.paint_tools(screen, todos, vidas)
+    mapa.inicialize(screen, todos, vidas)
+    aux = oleada.gen(3)
+
+
     reloj = pygame.time.Clock()
 
     while 1:
-        main(screen, todos, vidas, baldosas)
-        todos.update(screen)
+        act_v = main(screen, todos, vidas, baldosas, enemigos)
+
+        aux = oleada.gen_oleada(aux[0], aux[1], aux[2], todos, enemigos)
+        for t in torres:
+            t.le = enemigos
+        for v in vidas:
+            colision = pygame.sprite.spritecollide(v, enemigos, False)
+            '''for en_d in colision:
+                v.vida -= 25
+                print v.vida
+                en_d.rect.left = v.rect.right + 300
+                '''
+        todos.update(screen, enemigos)
         todos.draw(screen)
         pygame.display.flip()
-        reloj.tick(60)
+        reloj.tick(15)
