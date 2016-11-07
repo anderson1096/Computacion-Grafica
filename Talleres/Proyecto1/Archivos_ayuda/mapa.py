@@ -12,7 +12,7 @@ ROJO = (255,0,0)
 VERDE = (0,255,0)
 
 def cargar_fondo(archivo, ancho_corte, alto_corte):
-    imagen = pygame.image.load('Sprites/terrenogen.png').convert_alpha()
+    imagen = pygame.image.load('terrenogen.png').convert_alpha()
     img_ancho, img_alto = imagen.get_size()
     matriz_fondo = []
     for fila in range(img_ancho/ancho_corte):
@@ -32,14 +32,14 @@ if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode([ANCHO,ALTO])
     lector = ConfigParser.ConfigParser()
-    lector.read("Mapas/mapa1.map")
+    lector.read("mapa1.map")
     print lector.sections()
     origen = lector.get("nivel1", "origen")
     ial_or = int(lector.get("nivel1", "alto"))
     ian_or = int(lector.get("nivel1", "ancho"))
     mapa = lector.get("nivel1", "mapa").split("\n")
 
-    fondo = cargar_fondo('Sprites/terrenogen.png', 32, 32)
+    fondo = cargar_fondo('terrenogen.png', 32, 32)
     print 'filas', len(mapa)
     yact = 0
     for fila in mapa:
