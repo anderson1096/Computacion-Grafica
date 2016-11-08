@@ -39,7 +39,7 @@ class Life(pygame.sprite.Sprite):
         for en_d in colision:
             self.vida -= 25
             print self.vida
-            #en_d.rect.left = self.rect.right + 300
+
 
 
     def update(self, surface, enemigos):
@@ -81,7 +81,7 @@ def toMap(mapa, lector, ian_or, ial_or, tiles, baldosas, todos):
             if fila[x] != '.' and fila[x] != 'p' :
                 baldosa = Tile(tiles[xp], (xact, yact))
                 baldosas.add(baldosa)
-                todos.add(baldosa)
+
         yact += ial_or
 
 def paint_mapa(screen, todos, baldosas):
@@ -94,6 +94,7 @@ def paint_mapa(screen, todos, baldosas):
     ian_or = int(lector.get("nivel1", "ancho"))
     mapa = lector.get("nivel1", "mapa").split("\n")
     toMap(mapa, lector, ian_or, ial_or, tiles, baldosas, todos)
+
 
 def load_fondo(screen):
     fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/fondo.jpg').convert_alpha()
@@ -139,7 +140,6 @@ def paint_tools(screen, todos, vidas):
     screen.blit(az, (690, 400 - 160))
     screen.blit(ama, (690, 400 - 80))
     screen.blit(cuadro, (48, ALTO - 75))
-
     screen.blit(cuadro, (133, ALTO - 75))
 
 

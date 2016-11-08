@@ -12,6 +12,7 @@ NEGRO = (0,0,0)
 AZUL = (0,255,0)
 BLANCO = (255,255,255)
 
+
 class Torre(pygame.sprite.Sprite):
     def __init__(self, archivo, pos, idc, tipo):
 
@@ -25,6 +26,8 @@ class Torre(pygame.sprite.Sprite):
         self.radar = auxTorres(pos[0],pos[1],100,48,48)
         self.le = []
         self.tipo = tipo
+
+
 
     def update(self, surface, enemigos):
         if self.click:
@@ -55,7 +58,7 @@ class auxTorres(pygame.sprite.Sprite):
 
 
 
-def Game(iconos, torres, baldosas, enemigos, flag):
+def Game(iconos, torres, baldosas, enemigos, flag, lim_torr):
 
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -64,10 +67,13 @@ def Game(iconos, torres, baldosas, enemigos, flag):
                     torre1 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-1-1.png',pygame.mouse.get_pos(), ic.id + 2, 1)
                     torres.add(torre1)
                     todos.add(torre1)
+                    lim_torr -= 1
                 if ic.rect.collidepoint(event.pos) and ic.id == 2:
                     torre1 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-2-1.png',pygame.mouse.get_pos(), ic.id + 2, 2)
                     torres.add(torre1)
                     todos.add(torre1)
+                    lim_torr -= 1
+                    print lim_torr
                 if ic.rect.collidepoint(event.pos) and ic.id == 3:
                     flag = 1
 
@@ -95,8 +101,7 @@ def list_ene(torre, enemigos):
         torre.le.append(ene)
 
 
-def main(screen, todos, vidas, baldosas, enemigos, flag):
-    #Captura de teclas
+def ini_icons(todos, iconos):
     icono1 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-1-1.png',(63, ALTO - 45),1, 0)
     iconos.add(icono1)
     todos.add(icono1)
@@ -106,7 +111,9 @@ def main(screen, todos, vidas, baldosas, enemigos, flag):
     icono3 = Torre('/home/anderson/Descargas/TD_archivos/play.png',(250, ALTO - 45),3, 0)
     iconos.add(icono3)
     todos.add(icono3)
-    flag = Game(iconos, torres, baldosas, enemigos, flag)
+
+def main(screen, todos, vidas, baldosas, enemigos, flag, lim_torr):
+    flag = Game(iconos, torres, baldosas, enemigos, flag, lim_torr)
     screen.fill(NEGRO)
     mapa.load_fondo(screen)
     mapa.paint_tools(screen, todos, vidas)
@@ -119,28 +126,42 @@ def asignar_enemigos(enemigos):
         for en_d in colision:
             if t.tipo == 1:
                 centro = t.rect.center
-                b = bala.Bala(centro[0], centro[1], '/home/anderson/Descargas/TD_archivos/bala1.png')
+                b = bala.Bala(centro[0]-3, centro[1], '/home/anderson/Descargas/TD_archivos/bala1.png', 5)
+                b.disp = True
                 balas.add(b)
                 todos.add(b)
                 b.player = en_d
-                #b.disp = 1
+
             elif t.tipo == 2:
                 centro = t.rect.center
-                b = bala.Bala(centro[0], centro[1], '/home/anderson/Descargas/TD_archivos/bala2.png')
+                b = bala.Bala(centro[0]-3, centro[1], '/home/anderson/Descargas/TD_archivos/bala2.png', 10)
+                b.disp = True
                 balas.add(b)
                 todos.add(b)
                 b.player = en_d
-                #b.disp = 1
 
 
-def borrar_balas(enemigos, balas, todos):
+
+def borrar_balas(enemigos, balas, todos, screen, baldosas):
+
+    #restar vida y eliminar enemigos muertos
     for e in enemigos:
         colision = pygame.sprite.spritecollide(e, balas, True)
+        #print colision
         if len(colision) > 0:
-            e.vida -= 5
+            e.vida -= colision[0].power
             print e.vida
-            if e.vida == 0:
+            if e.vida <= 0:
                 e.kill()
+    #eliminar las balas a la deriva
+    for b in balas:
+        if b.player.alive() == False:
+            b.kill()
+
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -157,14 +178,17 @@ if __name__ == "__main__":
     vidas = pygame.sprite.Group()
     mapa.paint_mapa(screen, todos, baldosas)
     mapa.inicialize(screen, todos, vidas)
+    ini_icons(todos, iconos)
     oleada_act = 1
     aux = oleada.gen(oleada_act)
+    lim_torr = 4
     flag = 0
-    cont = 5
+    temp_disp = 15
     reloj = pygame.time.Clock()
     while 1:
 
-        flag = main(screen, todos, vidas, baldosas, enemigos, flag)
+        flag = main(screen, todos, vidas, baldosas, enemigos, flag, lim_torr)
+
         if flag == 1:
             aux = oleada.gen_oleada(aux[0], aux[1], aux[2], todos, enemigos)
             if aux[2] == 0:
@@ -175,11 +199,14 @@ if __name__ == "__main__":
                     oleada_act += 1
                 aux = oleada.gen(oleada_act)
 
-        asignar_enemigos(enemigos)
-        borrar_balas(enemigos, balas, todos)
-
+        if temp_disp == 0:
+            asignar_enemigos(enemigos)
+            temp_disp = 15
+        borrar_balas(enemigos, balas, todos, screen, baldosas)
 
         todos.update(screen, enemigos)
+        baldosas.draw(screen)
         todos.draw(screen)
         pygame.display.flip()
-        reloj.tick(20)
+        reloj.tick(30)
+        temp_disp -= 5
