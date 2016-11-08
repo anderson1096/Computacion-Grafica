@@ -36,6 +36,8 @@ def olear(l_tipo, tempo, cant_ene, todos, enemigos):
         if event.type == pygame.QUIT:
             exit()
     tempo -= 1
+    if tempo < 0:
+        tempo = 40
     return l_tipo, tempo, cant_ene
 
 

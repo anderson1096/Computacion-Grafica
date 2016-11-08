@@ -35,11 +35,11 @@ class Life(pygame.sprite.Sprite):
         self.vida = 100
 
     def disminuir(self, enemigos):
-        colision = pygame.sprite.spritecollide(self, enemigos, False)
+        colision = pygame.sprite.spritecollide(self, enemigos, True)
         for en_d in colision:
             self.vida -= 25
             print self.vida
-            en_d.rect.left = self.rect.right + 300
+            #en_d.rect.left = self.rect.right + 300
 
 
     def update(self, surface, enemigos):

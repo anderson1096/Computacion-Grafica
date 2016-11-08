@@ -68,6 +68,10 @@ class Enemigo(pygame.sprite.Sprite):
 
 
     def update(self, surface, enemigos):
+        if self.vida == 0:
+            enemigos.remove(self)
+            todos.remove(self)
+            
         if self.pini[0]<self.pfin[0]:
             if self.rect.x >= self.pini[0] and self.rect.x < self.pfin[0]:
                 self.rect.x += self.var_x
