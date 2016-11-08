@@ -123,22 +123,24 @@ def asignar_enemigos(enemigos):
                 balas.add(b)
                 todos.add(b)
                 b.player = en_d
+                #b.disp = 1
             elif t.tipo == 2:
                 centro = t.rect.center
                 b = bala.Bala(centro[0], centro[1], '/home/anderson/Descargas/TD_archivos/bala2.png')
-
                 balas.add(b)
                 todos.add(b)
                 b.player = en_d
+                #b.disp = 1
 
 
 def borrar_balas(enemigos, balas, todos):
     for e in enemigos:
         colision = pygame.sprite.spritecollide(e, balas, True)
-        for en_d in colision:
+        if len(colision) > 0:
+            e.vida -= 5
+            print e.vida
             if e.vida == 0:
                 e.kill()
-
 
 
 if __name__ == "__main__":
@@ -180,4 +182,4 @@ if __name__ == "__main__":
         todos.update(screen, enemigos)
         todos.draw(screen)
         pygame.display.flip()
-        reloj.tick(15)
+        reloj.tick(20)
