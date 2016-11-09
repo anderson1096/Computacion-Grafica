@@ -26,6 +26,7 @@ class Torre(pygame.sprite.Sprite):
         self.radar = auxTorres(pos[0],pos[1],100,48,48)
         self.le = []
         self.tipo = tipo
+        self.sonido = pygame.mixer.Sound('/home/anderson/Descargas/TD_archivos/sonidos/click.ogg')
 
 
 
@@ -58,25 +59,26 @@ class auxTorres(pygame.sprite.Sprite):
 
 
 
-def Game(iconos, torres, baldosas, enemigos, flag, lim_torr):
+def Game(iconos, torres, baldosas, enemigos, flag, lim_torr_a, lim_torr_b):
 
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             for ic in iconos:
-                if ic.rect.collidepoint(event.pos) and ic.id == 1:
+                if ic.rect.collidepoint(event.pos) and ic.id == 1 and lim_torr_a > 0:
+                    ic.sonido.play()
                     torre1 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-1-1.png',pygame.mouse.get_pos(), ic.id + 2, 1)
                     torres.add(torre1)
                     todos.add(torre1)
-                    lim_torr -= 1
-                if ic.rect.collidepoint(event.pos) and ic.id == 2:
+                    lim_torr_a -= 1
+                if ic.rect.collidepoint(event.pos) and ic.id == 2 and lim_torr_b > 0:
+                    ic.sonido.play()
                     torre1 = Torre('/home/anderson/Descargas/TD_archivos/towers/turret-2-1.png',pygame.mouse.get_pos(), ic.id + 2, 2)
                     torres.add(torre1)
                     todos.add(torre1)
-                    lim_torr -= 1
-                    print lim_torr
+                    lim_torr_b -= 1
                 if ic.rect.collidepoint(event.pos) and ic.id == 3:
                     flag = 1
-
+                    ic.sonido.play()
 
             for t in torres:
                 if t.rect.collidepoint(event.pos):
@@ -93,7 +95,7 @@ def Game(iconos, torres, baldosas, enemigos, flag, lim_torr):
             pygame.quit();
             sys.exit()
 
-    return flag
+    return flag, lim_torr_a, lim_torr_b
 
 def list_ene(torre, enemigos):
     le = []
@@ -112,12 +114,15 @@ def ini_icons(todos, iconos):
     iconos.add(icono3)
     todos.add(icono3)
 
-def main(screen, todos, vidas, baldosas, enemigos, flag, lim_torr):
-    flag = Game(iconos, torres, baldosas, enemigos, flag, lim_torr)
+def main(screen, todos, vidas, baldosas, enemigos, flag, lim_torr_a, lim_torr_b):
+    aux = Game(iconos, torres, baldosas, enemigos, flag, lim_torr_a, lim_torr_b)
+    flag = aux[0]
+    lim_torr_a = aux[1]
+    lim_torr_b = aux[2]
     screen.fill(NEGRO)
     mapa.load_fondo(screen)
     mapa.paint_tools(screen, todos, vidas)
-    return flag
+    return flag, lim_torr_a, lim_torr_b
 
 def asignar_enemigos(enemigos):
     for t in torres:
@@ -126,19 +131,21 @@ def asignar_enemigos(enemigos):
         for en_d in colision:
             if t.tipo == 1:
                 centro = t.rect.center
-                b = bala.Bala(centro[0]-3, centro[1], '/home/anderson/Descargas/TD_archivos/bala1.png', 5)
+                b = bala.Bala(centro[0]-3, centro[1], '/home/anderson/Descargas/TD_archivos/balas/bala1.png', 5)
                 b.disp = True
                 balas.add(b)
                 todos.add(b)
                 b.player = en_d
+                b.sonido.play()
 
             elif t.tipo == 2:
                 centro = t.rect.center
-                b = bala.Bala(centro[0]-3, centro[1], '/home/anderson/Descargas/TD_archivos/bala2.png', 10)
+                b = bala.Bala(centro[0]-3, centro[1], '/home/anderson/Descargas/TD_archivos/balas/bala2.png', 10)
                 b.disp = True
                 balas.add(b)
                 todos.add(b)
                 b.player = en_d
+                b.sonido.play()
 
 
 
@@ -168,6 +175,8 @@ if __name__ == "__main__":
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     pygame.init()
     screen = pygame.display.set_mode((ANCHO, ALTO))
+
+    #definicion de grupos de sprites
     todos = pygame.sprite.Group()
     balas = pygame.sprite.Group()
     iconos = pygame.sprite.Group()
@@ -175,37 +184,69 @@ if __name__ == "__main__":
     torres = pygame.sprite.Group()
     baldosas = pygame.sprite.Group()
     vidas = pygame.sprite.Group()
+
+    #inicializacion del mapa y elementos
     mapa.paint_mapa(screen, todos, baldosas)
     mapa.inicialize(screen, todos, vidas)
     ini_icons(todos, iconos)
+
+    #variable para validar victoria o derrota
+    fin = False
+
+    #oleada actual
     oleada_act = 1
     aux = oleada.gen(oleada_act)
-    lim_torr = 4
+
+    #limite de torres de cada tipo
+    lim_torr_a = 4
+    lim_torr_b = 2
     flag = 0
     temp_disp = 15
+    tool = []
     reloj = pygame.time.Clock()
+
+    #musica de fondo
+    pygame.mixer.music.load('/home/anderson/Descargas/TD_archivos/sonidos/backsound.mp3')
+    pygame.mixer.music.play(-1)
+
     while 1:
+        tool = main(screen, todos, vidas, baldosas, enemigos, flag, lim_torr_a, lim_torr_b)
+        flag = tool[0]
+        lim_torr_a = tool[1]
+        lim_torr_b = tool[2]
 
-        flag = main(screen, todos, vidas, baldosas, enemigos, flag, lim_torr)
+        #condiciones de derrota o victoria
+        for i in vidas:
+            if oleada_act == 4 and i.vida > 0 and len(enemigos) == 0:
+                print "Victoria"
+                fin = True
+                fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/win.png').convert_alpha()
+                screen.blit(fondo, (0,0))
+            elif i.vida <= 0:
+                print "Derrota"
+                fin = True
+                fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/game_over.png').convert_alpha()
+                screen.blit(fondo, (0,0))
 
+        #generacion de oleadas
         if flag == 1:
             aux = oleada.gen_oleada(aux[0], aux[1], aux[2], todos, enemigos)
             if aux[2] == 0:
                 flag = 0
-                if oleada_act == 3:
-                    print 'Gano'
-                else:
-                    oleada_act += 1
-                aux = oleada.gen(oleada_act)
+                oleada_act += 1
+                if oleada_act != 4:
+                    aux = oleada.gen(oleada_act)
 
+        #temporizador de disparo de las torres
         if temp_disp == 0:
             asignar_enemigos(enemigos)
             temp_disp = 15
         borrar_balas(enemigos, balas, todos, screen, baldosas)
 
-        todos.update(screen, enemigos)
-        baldosas.draw(screen)
-        todos.draw(screen)
+        if fin == False:
+            todos.update(screen, enemigos)
+            baldosas.draw(screen)
+            todos.draw(screen)
         pygame.display.flip()
         reloj.tick(30)
         temp_disp -= 5

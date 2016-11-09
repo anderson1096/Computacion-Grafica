@@ -37,7 +37,12 @@ class Life(pygame.sprite.Sprite):
     def disminuir(self, enemigos):
         colision = pygame.sprite.spritecollide(self, enemigos, True)
         for en_d in colision:
-            self.vida -= 25
+            if en_d.tipo == 1:
+                self.vida -= 15
+            elif en_d.tipo == 2:
+                self.vida -= 25
+            elif en_d.tipo == 3:
+                self.vida -= 99
             print self.vida
 
 

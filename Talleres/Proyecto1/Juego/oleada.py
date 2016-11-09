@@ -20,6 +20,7 @@ def gen(num):
         aux = [[1,2,1,2,2], 40, 5]
     elif num == 3:
         aux = [[3,2,2,2,1], 40, 5]
+    
 
     return aux
 

@@ -32,6 +32,7 @@ class Bala(pygame.sprite.Sprite):
         self.flag = False
         self.power = power
         self.disp = False
+        self.sonido = pygame.mixer.Sound('/home/anderson/Descargas/TD_archivos/sonidos/laser.ogg')
 
     def update(self, screen, enemigos):
         self.rect.x += self.var_x
