@@ -150,7 +150,6 @@ def borrar_balas(enemigos, balas, todos, screen, baldosas):
         #print colision
         if len(colision) > 0:
             e.vida -= colision[0].power
-            print e.vida
             if e.vida <= 0:
                 e.kill()
     #eliminar las balas a la deriva
