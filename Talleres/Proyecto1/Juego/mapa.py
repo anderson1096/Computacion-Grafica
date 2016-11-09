@@ -21,6 +21,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect.y = pos[1]
         self.rect.x = pos[0]
 
+
     def update(self, surface, enemigos):
         pass
 
@@ -33,16 +34,20 @@ class Life(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.modos = mode
         self.vida = 100
+        self.sonido = pygame.mixer.Sound('/home/anderson/Descargas/TD_archivos/sonidos/boom.wav')
 
     def disminuir(self, enemigos):
         colision = pygame.sprite.spritecollide(self, enemigos, True)
         for en_d in colision:
             if en_d.tipo == 1:
                 self.vida -= 15
+                self.sonido.play()
             elif en_d.tipo == 2:
                 self.vida -= 25
+                self.sonido.play()
             elif en_d.tipo == 3:
                 self.vida -= 99
+                self.sonido.play()
             print self.vida
 
 

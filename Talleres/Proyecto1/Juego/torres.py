@@ -185,6 +185,9 @@ if __name__ == "__main__":
     baldosas = pygame.sprite.Group()
     vidas = pygame.sprite.Group()
 
+    #sonidos victoria y derrota
+    sonido_vic = pygame.mixer.Sound('/home/anderson/Descargas/TD_archivos/sonidos/win.wav')
+    sonido_der = pygame.mixer.Sound('/home/anderson/Descargas/TD_archivos/sonidos/lose.wav')
     #inicializacion del mapa y elementos
     mapa.paint_mapa(screen, todos, baldosas)
     mapa.inicialize(screen, todos, vidas)
@@ -220,13 +223,17 @@ if __name__ == "__main__":
             if oleada_act == 4 and i.vida > 0 and len(enemigos) == 0:
                 print "Victoria"
                 fin = True
-                fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/win.png').convert_alpha()
-                screen.blit(fondo, (0,0))
+                fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/win.jpg').convert_alpha()
+                screen.blit(fondo, (-50,0))
+                #pygame.mixer.music.stop()
+                #sonido_vic.play()
             elif i.vida <= 0:
                 print "Derrota"
                 fin = True
-                fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/game_over.png').convert_alpha()
-                screen.blit(fondo, (0,0))
+                fondo =  pygame.image.load('/home/anderson/Descargas/TD_archivos/game_over.jpg').convert_alpha()
+                screen.blit(fondo, (-50,0))
+                #pygame.mixer.music.stop()
+                #sonido_der.play()
 
         #generacion de oleadas
         if flag == 1:
